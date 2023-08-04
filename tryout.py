@@ -1,6 +1,7 @@
 import os
 import json
 import matplotlib.pyplot as plt
+import argparse
 
 def count_obj_in_json(json_data, labels):
     objects = [0] * len(labels)  
@@ -26,7 +27,7 @@ def readFile(folder_path, objects, labels):
                         print(f"Error decoding JSON in file {filename}: {e}")
     return objects
 
-def showPlt(objects, labels):    
+def showPlt(objects, labels, output_file_path, output_file_name):    
     plt.bar(labels, objects, color='pink', label='Data Points')
     plt.xlabel('Object Labels')
     plt.title('total')
@@ -34,21 +35,24 @@ def showPlt(objects, labels):
         plt.text(i, count, str(count), ha='center', va='bottom', fontweight='bold', fontsize=10, color='black')
     plt.xticks(rotation=45, ha='right') 
     plt.grid(True)
-    print("File name")
-    output_filename = input()
-    print("File path to save")
-    file_path = input()
-    fig_path = os.path.join(file_path, output_filename)
+    fig_path = os.path.join(output_file_path, output_file_name)
     plt.savefig(fig_path)
     plt.show()
     return
+    
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Paths")
+    parser.add_argument('--input_file', help='Path to the input file')
+    parser.add_argument('--output', help='Path to the output file')
+    parser.add_argument('--output_name',help='The output file name', default= "file.png", type=str)
+    args = parser.parse_args()
+    input_folder_path = args.input_file
+    output_file_path = args.output
+    output_file_name = args.output_name
+    
 
-def main():
-    print('File path to read')
-    folder_path = input()
     labels = ["person", "bicycle", "car", "motorbike", "bus", "truck", "traffic light", "traffic cone", "traffic sign"] 
     objects = [0,0,0,0,0,0,0,0,0]
-    objects = readFile(folder_path, objects, labels)
-    showPlt(objects, labels)
-if __name__ == "__main__":
-    main()
+    objects = readFile(input_folder_path, objects, labels)
+    showPlt(objects, labels, output_file_path, output_file_name)
+
