@@ -42,8 +42,8 @@ def showPlt(objects, labels, output_file_path, output_file_name):
     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Paths")
-    parser.add_argument('--input_file', help='Path to the input file')
-    parser.add_argument('--output', help='Path to the output file')
+    parser.add_argument('--input_path', help='Path to the input path')
+    parser.add_argument('--output_path', help='Path to the output path')
     parser.add_argument('--output_name',help='The output file name', default= "file.png", type=str)
     args = parser.parse_args()
     input_folder_path = args.input_file
